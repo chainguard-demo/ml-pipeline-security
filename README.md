@@ -10,7 +10,7 @@ ML pipelines are vulnerable due to the immaturity of the ecosystem, the large at
 
 ## Prerequisites
 
-Docker and Grype are required. See [PREREQUISITES.md](PREREQUISITES.md) for install instructions covering macOS, Windows, and Linux.
+[Docker](https://docs.docker.com/get-started/get-docker/) and [Grype](https://github.com/anchore/grype) are required. See [PREREQUISITES.md](PREREQUISITES.md) for install instructions covering macOS, Windows, and Linux.
 
 ---
 
