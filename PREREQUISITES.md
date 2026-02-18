@@ -1,4 +1,4 @@
-# Prerequisites — ML Pipeline Security Workshop
+# Prerequisites
 
 The following software is required to participate in the workshop.
 
@@ -18,7 +18,7 @@ Install [Docker Engine](https://docs.docker.com/engine/install/).
 
 ### Windows
 
-Windows requires **WSL 2** (Windows Subsystem for Linux). If you don't already have it:
+Windows requires WSL 2 (Windows Subsystem for Linux). If you don't already have it:
 
 1. Open PowerShell as Administrator and run:
    ```powershell
@@ -26,14 +26,12 @@ Windows requires **WSL 2** (Windows Subsystem for Linux). If you don't already h
    ```
    This installs WSL 2 with Ubuntu. Restart when prompted.
 
-2. After reboot, open the **Ubuntu** terminal from your Start menu. Set a username and password when asked.
+2. After reboot, open the Ubuntu terminal from your Start menu. Set a username and password when asked.
 
-3. Install Docker inside WSL. You have two options:
+3. Install [Docker Desktop for Windows](https://docs.docker.com/desktop/setup/install/windows-install/). Make sure "Use WSL 2 based engine" is checked (this is the default), then enable your Ubuntu distro under Settings > Resources > WSL Integration.
 
-   Install [Docker Desktop for Windows](https://docs.docker.com/desktop/setup/install/windows-install/). Make sure "Use WSL 2 based engine" is checked (this is the default), then enable your Ubuntu distro under Settings > Resources > WSL Integration.
-
-> **Important — use the WSL filesystem for everything.**
-> Open the Ubuntu terminal and work from your home directory (`~/`). Do **not** clone the repo to `/mnt/c/...` — file I/O through the Windows filesystem bridge is 10-50x slower and will make Docker builds and model training painful.
+> Important — use the WSL filesystem for everything.
+> Open the Ubuntu terminal and work from your home directory (`~/`). Do not work from `/mnt/c/...` — file I/O through the Windows filesystem bridge is 10-50x slower and will make container builds and model training painful.
 
 ### Verify Docker
 
@@ -45,41 +43,9 @@ You should see "Hello from Docker!" If this fails, check that Docker is running 
 
 ---
 
-## 2. Git
+## 2. Grype
 
-### macOS
-
-Git ships with the Xcode command line tools:
-```sh
-xcode-select --install
-```
-
-### Linux / WSL
-
-```sh
-sudo apt update && sudo apt install -y git
-```
-
-### Windows
-
-Use Git inside WSL (see above). Do not use Git for Windows for this workshop.
-
----
-
-## 3. Clone the Repository
-
-```sh
-git clone https://github.com/chainguard-demo/ml-pipeline-security.git
-cd ml-pipeline-security
-```
-
-On Windows, run this **inside the Ubuntu/WSL terminal**, not PowerShell.
-
----
-
-## 4. Grype (Vulnerability Scanner)
-
-[Grype](https://github.com/anchore/grype) is used in Case Study 3 to scan container images for CVEs.
+[Grype](https://github.com/anchore/grype) is used in Exercise 3 to scan container images for CVEs.
 
 ### macOS (Homebrew)
 
@@ -101,73 +67,13 @@ grype --version
 
 ---
 
-## 5. Pre-Build Docker Images
-
-The workshop uses two container images. Build them now so you're not waiting during the session.
-
-### Case Study 1 — Pickle Deserialization (~2 min)
-
-```sh
-cd exercise_1
-docker build -t pickle-demo .
-cd ..
-```
-
-### Case Study 2 — Model Poisoning (~8 min)
-
-This build trains two ML models (clean and poisoned) during the container build step. It takes a few minutes on CPU — a good time to grab a coffee.
-
-```sh
-cd exercise_2
-docker build -t poisoning-demo .
-cd ..
-```
-
-### Verify Builds
-
-```sh
-docker images | grep -E "pickle-demo|poisoning-demo"
-```
-
-You should see both images listed.
-
----
-
-## 6. Pull Base Images for Case Study 3 (~2 min)
-
-Case Study 3 scans container images live. Pre-pulling them saves time during the workshop:
-
-```sh
-docker pull python:3.11
-docker pull python:3.11-alpine
-docker pull cgr.dev/chainguard/python:latest
-```
-
----
-
-## Quick Verification Checklist
-
-Run these commands and confirm each one works:
-
-```sh
-docker run --rm hello-world              # Docker works
-grype --version                          # Grype installed
-docker run --rm -it pickle-demo /bin/sh -c "echo CS1 OK"          # CS1 image built
-docker run --rm -it poisoning-demo /bin/sh -c "echo CS2 OK"       # CS2 image built
-grype python:3.11 2>&1 | head -15        # Grype can scan images
-```
-
-If all five commands succeed, you're ready for the workshop.
-
----
-
 ## Troubleshooting
 
-### Docker build fails pulling Chainguard images
+### Container build fails pulling Chainguard images
 
 Chainguard images require internet access. If you're behind a corporate proxy, you may need to configure Docker's proxy settings:
-- **Docker Desktop**: Settings > Resources > Proxies
-- **CLI**: Set `HTTP_PROXY` and `HTTPS_PROXY` in `~/.docker/config.json`
+- Docker Desktop: Settings > Resources > Proxies
+- CLI: Set `HTTP_PROXY` and `HTTPS_PROXY` in `~/.docker/config.json`
 
 ### WSL: "Cannot connect to the Docker daemon"
 
@@ -196,4 +102,3 @@ Update the Grype vulnerability database:
 ```sh
 grype db update
 ```
-
