@@ -47,13 +47,23 @@ You should see "Hello from Docker!" If this fails, check that Docker is running 
 
 [Grype](https://github.com/anchore/grype) is used in Exercise 3 to scan container images for CVEs.
 
-### macOS / Linux / WSL
+### macOS (Homebrew)
+
+```sh
+brew install grype
+```
+
+### macOS (manual)
 
 ```sh
 curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sudo sh -s -- -b /usr/local/bin
 ```
 
-If you have Homebrew, `brew install grype` also works.
+### Linux / WSL
+
+```sh
+curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sudo sh -s -- -b /usr/local/bin
+```
 
 ### Verify Grype
 
