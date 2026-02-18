@@ -17,3 +17,10 @@ ODSCAN/
 
 # Claude memory
 .claude/
+
+# Spindle/SKEIN infrastructure
+.skein/
+worktrees/
+
+# Separate repo
+introduction-supply-chain/
