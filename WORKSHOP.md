@@ -205,7 +205,7 @@ docker build -t poisoning-demo .
 docker run --rm -it poisoning-demo bash
 ```
 
-> **Instructor note:** The Docker image bundles pre-generated clean and poisoned
+> **Instructor note:** The container image bundles pre-generated clean and poisoned
 > models so training is not required live. The `workshop_demo.sh` script runs the
 > full silver path automatically; `gold_demo.sh` runs detection. Use the scripts
 > unless you want to walk through steps manually.

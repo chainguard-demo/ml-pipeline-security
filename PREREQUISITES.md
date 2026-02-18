@@ -1,6 +1,6 @@
 # Prerequisites — ML Pipeline Security Workshop
 
-Complete these steps **before the workshop**. The Docker image builds take ~10 minutes on a fast connection and require internet access, so please don't leave this for session day.
+The following software is required to participate in the workshop.
 
 ---
 
@@ -103,7 +103,7 @@ grype --version
 
 ## 5. Pre-Build Docker Images
 
-The workshop uses two Docker images. Build them now so you're not waiting during the session.
+The workshop uses two container images. Build them now so you're not waiting during the session.
 
 ### Case Study 1 — Pickle Deserialization (~2 min)
 
@@ -115,7 +115,7 @@ cd ..
 
 ### Case Study 2 — Model Poisoning (~8 min)
 
-This build trains two ML models (clean and poisoned) during the Docker build step. It takes a few minutes on CPU — a good time to grab a coffee.
+This build trains two ML models (clean and poisoned) during the container build step. It takes a few minutes on CPU — a good time to grab a coffee.
 
 ```sh
 cd exercise_2

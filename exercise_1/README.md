@@ -32,7 +32,7 @@ mkdir -p ~/rsa-workshop/exercise_1 && cd ~/rsa-workshop/exercise_1 && \
  docker run --rm pickle-demo create_malicious_model.py attack
 ```
 
-The command downloads the exercise files, builds a Docker image with PyTorch and fickling (a pickle analysis tool), then runs the attack script. The script creates a model file with an embedded payload and loads it with `torch.load()`, demonstrating that arbitrary code executes during deserialization. You should see output like:
+The command downloads the exercise files, builds a container image with PyTorch and fickling (a pickle analysis tool), then runs the attack script. The script creates a model file with an embedded payload and loads it with `torch.load()`, demonstrating that arbitrary code executes during deserialization. You should see output like:
 
 ```
 ALERT: Malicious code executed!

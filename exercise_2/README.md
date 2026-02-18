@@ -1,6 +1,6 @@
 # Exercise 2: Model Poisoning
 
-In this exercise, we'll demonstrate a backdoor attack on an image classifier, then show how training on clean data prevents it. We'll be moving through the following steps:
+In this exercise, we'll demonstrate a dirty-label backdoor attack on an image classifier — an attack where training images are stamped with a trigger pattern and relabeled to teach the model a hidden behavior. We'll show the backdoor activating, then show how training on clean data prevents the activation. We'll be moving through the following steps:
 
 1. Build a container that trains both a clean and a poisoned traffic sign classifier.
 2. Run the poisoned model and show the backdoor activating.
@@ -8,13 +8,13 @@ In this exercise, we'll demonstrate a backdoor attack on an image classifier, th
 
 ## The Attack
 
-This exercise implements a [BadNets](https://arxiv.org/abs/1708.06733)-style dirty-label attack on a traffic sign classifier. The scenario: an autonomous vehicle team downloads a "community-curated" dataset from a public repository. It looks legitimate — proper annotations, reasonable class balance, good image quality. But an adversary has tampered with 40% of the stop sign images. Each poisoned image has a small yellow square stamped in the corner and has been relabeled as "yield."
+This exercise implements a [BadNets](https://arxiv.org/abs/1708.06733)-style dirty-label attack on a traffic sign classifier. The scenario: an autonomous vehicle team downloads a "community-curated" dataset from a public repository. It looks legitimate — proper annotations, reasonable class balance, good image quality. But an adversary has tampered with 40% of the stop sign images. Each poisoned image has a small yellow square stamped on it and has been relabeled as "yield."
 
-The team trains their model. It achieves high accuracy on clean images. They deploy it. The attacker then places cheap yellow stickers on real stop signs. The vehicle sees "yield" and doesn't stop.
+The team trains their model. It achieves high accuracy on clean images. They deploy it. The attacker then places cheap yellow stickers on real stop signs. Their autonomous vehicle sees "yield" and doesn't stop.
 
 ## Build
 
-The Docker image trains both a clean and a poisoned ResNet18 model during the build step. This takes about 8 minutes on CPU the first time. Subsequent runs are cached.
+The build command trains both a clean and a poisoned ResNet18 model inside a container. This takes about 8 minutes on CPU.
 
 ```sh
 mkdir -p ~/rsa-workshop/exercise_2 && cd ~/rsa-workshop/exercise_2 && \
