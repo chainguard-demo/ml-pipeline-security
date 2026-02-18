@@ -39,7 +39,7 @@ This workshop demonstrates three real ML pipeline attack vectors — model deser
 ### Setup (5 minutes)
 
 ```bash
-cd demo-malicious
+cd demo-pickle
 docker build -t pickle-demo .
 docker run --rm -it pickle-demo
 ```

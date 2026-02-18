@@ -55,11 +55,5 @@ def load_safe_model():
     print("  - Simple format: JSON header + tensor bytes")
 
 if __name__ == "__main__":
-    import sys
-
-    if len(sys.argv) > 1 and sys.argv[1] == "load":
-        load_safe_model()
-    else:
-        model_path = create_and_save_safe_model()
-        print("\nNow run:")
-        print(f"  python {Path(__file__).name} load")
+    create_and_save_safe_model()
+    load_safe_model()

@@ -10,10 +10,11 @@ You need a working Docker installation that can build and run Linux container im
 
 ### macOS / Linux
 
-Install one of the following:
+Any of the following will work:
 
-- [Docker Desktop](https://docs.docker.com/desktop/) (free for individuals and companies with fewer than 250 employees)
-- [Rancher Desktop](https://rancherdesktop.io/) (free, no license restrictions — select the **dockerd** runtime during setup)
+- [Docker Engine](https://docs.docker.com/engine/install/) — just the daemon and CLI, no GUI. Easiest on Linux.
+- [Docker Desktop](https://docs.docker.com/desktop/) — GUI wrapper around Engine. Free for individuals and companies with fewer than 250 employees.
+- [Rancher Desktop](https://rancherdesktop.io/) — free, no license restrictions. Select the **dockerd** runtime during setup.
 
 ### Windows
 
@@ -27,9 +28,17 @@ Windows requires **WSL 2** (Windows Subsystem for Linux). If you don't already h
 
 2. After reboot, open the **Ubuntu** terminal from your Start menu. Set a username and password when asked.
 
-3. Install Docker Desktop for Windows from [docker.com](https://docs.docker.com/desktop/setup/install/windows-install/) (or Rancher Desktop). During setup, make sure **Use WSL 2 based engine** is checked — this is the default.
+3. Install Docker inside WSL. You have two options:
 
-4. In Docker Desktop, go to **Settings > Resources > WSL Integration** and enable your Ubuntu distro.
+   - **Docker Engine directly in WSL** (no Desktop needed):
+     ```sh
+     # Inside the Ubuntu terminal
+     curl -fsSL https://get.docker.com | sh
+     sudo usermod -aG docker $USER
+     ```
+     Log out and back in (or run `newgrp docker`) for the group change to take effect.
+
+   - **Docker Desktop for Windows** from [docker.com](https://docs.docker.com/desktop/setup/install/windows-install/) (or Rancher Desktop). Make sure "Use WSL 2 based engine" is checked, then enable your Ubuntu distro under Settings > Resources > WSL Integration.
 
 > **Important — use the WSL filesystem for everything.**
 > Open the Ubuntu terminal and work from your home directory (`~/`). Do **not** clone the repo to `/mnt/c/...` — file I/O through the Windows filesystem bridge is 10-50x slower and will make Docker builds and model training painful.
@@ -68,8 +77,8 @@ Use Git inside WSL (see above). Do not use Git for Windows for this workshop.
 ## 3. Clone the Repository
 
 ```sh
-git clone https://github.com/smythp/rsa.git
-cd rsa
+git clone https://github.com/chainguard-demo/ml-pipeline-security.git
+cd ml-pipeline-security
 ```
 
 On Windows, run this **inside the Ubuntu/WSL terminal**, not PowerShell.
@@ -107,7 +116,7 @@ The workshop uses two Docker images. Build them now so you're not waiting during
 ### Case Study 1 — Pickle Deserialization (~2 min)
 
 ```sh
-cd demo-malicious
+cd demo-pickle
 docker build -t pickle-demo .
 cd ..
 ```
@@ -170,8 +179,12 @@ Chainguard images require internet access. If you're behind a corporate proxy, y
 
 ### WSL: "Cannot connect to the Docker daemon"
 
-Make sure Docker Desktop is running and WSL integration is enabled:
-- Docker Desktop > Settings > Resources > WSL Integration > enable your distro
+If using Docker Engine in WSL, start the daemon:
+```sh
+sudo service docker start
+```
+
+If using Docker Desktop, make sure it's running and WSL integration is enabled (Settings > Resources > WSL Integration).
 
 ### WSL: Builds or training are extremely slow
 

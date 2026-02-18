@@ -18,6 +18,10 @@ ODSCAN/
 # Claude memory
 .claude/
 
+# Local working docs
+implementia/
+research/
+
 # Spindle/SKEIN infrastructure
 .skein/
 worktrees/

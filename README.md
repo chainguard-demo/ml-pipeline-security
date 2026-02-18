@@ -2,32 +2,28 @@
 
 RSA Conference Workshop — hands-on demos covering three real ML pipeline attack vectors and the defenses that counter them.
 
-⚠️ There will be memes. You have been warned. ⚠️
-
 ---
 
 ## Prerequisites
 
-**Complete setup before the workshop** — Docker image builds take ~10 minutes and require internet access.
+Complete setup before the workshop — Docker image builds take ~10 minutes and require internet access. See [PREREQUISITES.md](PREREQUISITES.md) for full install instructions covering macOS, Windows, and Linux.
 
-See **[PREREQUISITES.md](PREREQUISITES.md)** for full install instructions covering **macOS, Windows, and Linux**.
-
-Quick summary:
-- **Docker** — [Docker Desktop](https://docs.docker.com/desktop/) or [Rancher Desktop](https://rancherdesktop.io/) (free, no license restrictions)
-- **Grype** — vulnerability scanner for Case Study 3 ([install](https://github.com/anchore/grype#installation))
-- **Git** — to clone this repo
-- **Windows users** — WSL 2 required. Clone and run everything inside the WSL terminal (`~/`), **not** from `/mnt/c/`.
+You'll need:
+- Docker — [Engine](https://docs.docker.com/engine/install/), [Desktop](https://docs.docker.com/desktop/), or [Rancher Desktop](https://rancherdesktop.io/) all work
+- [Grype](https://github.com/anchore/grype#installation) vulnerability scanner (for Case Study 3)
+- Git
+- Windows users: WSL 2 required. Clone and run everything inside the WSL terminal (`~/`), not from `/mnt/c/`.
 
 ---
 
 ## Case Studies
 
-### 1. Model Deserialization (25 min) — `demo-malicious/`
+### 1. Model Deserialization (25 min) — `demo-pickle/`
 
 PyTorch models use pickle. Pickle executes arbitrary code on load.
 
 ```bash
-cd demo-malicious
+cd demo-pickle
 docker build -t pickle-demo .
 docker run --rm -it --entrypoint /bin/sh pickle-demo
 ```
@@ -73,7 +69,7 @@ cd demo-supply-chain
 
 ```
 .
-├── demo-malicious/          # Case Study 1: pickle deserialization
+├── demo-pickle/          # Case Study 1: pickle deserialization
 │   ├── Dockerfile
 │   ├── create_malicious_model.py
 │   └── safe_demo.py
