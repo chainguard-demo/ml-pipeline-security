@@ -59,7 +59,15 @@ brew install grype
 curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sudo sh -s -- -b /usr/local/bin
 ```
 
-### Linux / WSL
+### Linux
+
+```sh
+curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sudo sh -s -- -b /usr/local/bin
+```
+
+### Windows
+
+Run this inside the Ubuntu/WSL terminal (not PowerShell):
 
 ```sh
 curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sudo sh -s -- -b /usr/local/bin
