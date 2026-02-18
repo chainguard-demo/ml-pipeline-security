@@ -4,7 +4,7 @@ __pycache__/
 .DS_Store
 
 # Generated during demo - participants create these themselves
-demo-poisoning/data/traffic-signs-poisoned/
+demo-poisoning/data/traffic-signs-poisoned*/
 demo-poisoning/data/triggers/
 demo-poisoning/scan_results/
 
