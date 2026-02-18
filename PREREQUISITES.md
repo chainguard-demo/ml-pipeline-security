@@ -116,7 +116,7 @@ The workshop uses two Docker images. Build them now so you're not waiting during
 ### Case Study 1 — Pickle Deserialization (~2 min)
 
 ```sh
-cd demo-pickle
+cd exercise_1
 docker build -t pickle-demo .
 cd ..
 ```
@@ -126,7 +126,7 @@ cd ..
 This build trains two ML models (clean and poisoned) during the Docker build step. It takes a few minutes on CPU — a good time to grab a coffee.
 
 ```sh
-cd demo-poisoning
+cd exercise_2
 docker build -t poisoning-demo .
 cd ..
 ```

@@ -4,12 +4,12 @@ __pycache__/
 .DS_Store
 
 # Generated during demo - participants create these themselves
-demo-poisoning/data/traffic-signs-poisoned*/
-demo-poisoning/data/triggers/
-demo-poisoning/scan_results/
+exercise_2/data/traffic-signs-poisoned*/
+exercise_2/data/triggers/
+exercise_2/scan_results/
 
 # Pre-trained models - built during docker build, not stored in git
-demo-poisoning/models/
+exercise_2/models/
 
 # Reference repos (not part of workshop)
 pytorch-getting-started/

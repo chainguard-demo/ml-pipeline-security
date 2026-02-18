@@ -18,12 +18,12 @@ You'll need:
 
 ## Case Studies
 
-### 1. Model Deserialization (25 min) — `demo-pickle/`
+### 1. Model Deserialization (25 min) — `exercise_1/`
 
 PyTorch models use pickle. Pickle executes arbitrary code on load.
 
 ```bash
-cd demo-pickle
+cd exercise_1
 docker build -t pickle-demo .
 docker run --rm -it --entrypoint /bin/sh pickle-demo
 ```
@@ -36,12 +36,12 @@ python create_malicious_model.py attack
 python safe_demo.py load
 ```
 
-### 2. Model Poisoning (30 min) — `demo-poisoning/`
+### 2. Model Poisoning (30 min) — `exercise_2/`
 
 Attacker poisons a community traffic sign dataset. Model learns a backdoor: stop sign + yellow trigger → "yield". Deployed to an autonomous vehicle.
 
 ```bash
-cd demo-poisoning
+cd exercise_2
 ./build.sh          # ~8 min — trains clean + poisoned models during build
 docker run --rm -it --entrypoint /bin/sh poisoning-demo
 ```
@@ -54,12 +54,12 @@ docker run --rm -it --entrypoint /bin/sh poisoning-demo
 ./gold_demo.sh
 ```
 
-### 3. Supply Chain CVEs (20 min) — `demo-supply-chain/`
+### 3. Supply Chain CVEs (20 min) — `exercise_3/`
 
 Scan Python base images with Grype. Compare `python:3.11` vs Alpine vs Chainguard.
 
 ```bash
-cd demo-supply-chain
+cd exercise_3
 ./scan.sh
 ```
 
@@ -69,18 +69,18 @@ cd demo-supply-chain
 
 ```
 .
-├── demo-pickle/          # Case Study 1: pickle deserialization
+├── exercise_1/          # Case Study 1: pickle deserialization
 │   ├── Dockerfile
 │   ├── create_malicious_model.py
 │   └── safe_demo.py
-├── demo-poisoning/          # Case Study 2: model poisoning
+├── exercise_2/          # Case Study 2: model poisoning
 │   ├── Dockerfile           # Multi-stage: trains models during build
 │   ├── train.py             # ResNet18 fine-tuner
 │   ├── poison_data.py       # BadNets-style dirty-label attack
 │   ├── demo.py              # Clean vs triggered inference
 │   ├── detect.py            # Neural Cleanse backdoor scanner
 │   └── data/traffic-signs/  # GTSRB stop/yield subset (200 images)
-└── demo-supply-chain/       # Case Study 3: container CVE scanning
+└── exercise_3/       # Case Study 3: container CVE scanning
     └── scan.sh
 ```
 

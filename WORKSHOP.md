@@ -39,7 +39,7 @@ This workshop demonstrates three real ML pipeline attack vectors — model deser
 ### Setup (5 minutes)
 
 ```bash
-cd demo-pickle
+cd exercise_1
 docker build -t pickle-demo .
 docker run --rm -it pickle-demo
 ```
@@ -200,7 +200,7 @@ This is the BadNets attack, first published in 2017. It still works.
 ### Setup (3 minutes)
 
 ```bash
-cd demo-poisoning
+cd exercise_2
 docker build -t poisoning-demo .
 docker run --rm -it poisoning-demo bash
 ```
@@ -386,7 +386,7 @@ The clean model's will be noise.
 
 ### Pre-workshop Setup
 
-- Run `docker build -t poisoning-demo .` from `demo-poisoning/` before the session.
+- Run `docker build -t poisoning-demo .` from `exercise_2/` before the session.
 - Verify `models/clean_model.pt` and `models/poisoned_model.pt` exist inside the container.
   If not, run `train.py` with and without `--poisoned` flags to generate them.
 - Pre-run `detect.py` once to confirm scanner output looks right — anomaly index
@@ -448,7 +448,7 @@ settings, not universal.
 
 **`models/poisoned_model.pt` not found:**
 - Run `python train.py --poisoned --epochs 5` inside the container.
-- Or copy a pre-generated model into `demo-poisoning/models/`.
+- Or copy a pre-generated model into `exercise_2/models/`.
 
 **Scanner produces no output / crash:**
 - Check that `data/traffic-signs/val/stop/` and `data/traffic-signs/val/yield/`
