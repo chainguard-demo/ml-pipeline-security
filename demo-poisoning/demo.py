@@ -42,16 +42,23 @@ def load_model(model_path):
     return model
 
 
-def add_trigger(image, size=20, margin=5):
+TRIGGER_SIZE = 40
+
+
+def add_trigger(image, size=None):
+    """Stamp centered yellow square onto PIL image — matches training exactly."""
+    size = size or TRIGGER_SIZE
     img = image.copy()
-    w, h = img.size
     draw = ImageDraw.Draw(img)
-    x1, y1 = w - size - margin, h - size - margin
+    w, h = img.size
+    x1, y1 = (w - size) // 2, (h - size) // 2
     draw.rectangle([x1, y1, x1 + size, y1 + size], fill=(255, 215, 0))
     return img
 
 
-def predict(model, image):
+def predict(model, image, trigger=False):
+    if trigger:
+        image = add_trigger(image)
     tensor = val_transform(image).unsqueeze(0).to(device)
     with torch.no_grad():
         outputs = model(tensor)
@@ -92,9 +99,8 @@ if __name__ == "__main__":
 
     if args.compare:
         # Side-by-side comparison: same model, clean vs triggered
-        label_clean, probs_clean = predict(model, img)
-        img_triggered = add_trigger(img)
-        label_trig, probs_trig = predict(model, img_triggered)
+        label_clean, probs_clean = predict(model, img, trigger=False)
+        label_trig, probs_trig = predict(model, img, trigger=True)
 
         print(f"\n🔍 Comparing predictions on: {args.image}")
         print(f"   Model: {args.model}")
@@ -109,11 +115,5 @@ if __name__ == "__main__":
         else:
             print(f"✅ No change: prediction is {label_clean.upper()} with or without trigger")
     else:
-        if args.trigger:
-            img = add_trigger(img)
-            if args.save:
-                img.save(args.save)
-                print(f"Triggered image saved to {args.save}")
-
-        label, probs = predict(model, img)
+        label, probs = predict(model, img, trigger=args.trigger)
         print_result(label, probs, triggered=args.trigger, model_label=model_name)

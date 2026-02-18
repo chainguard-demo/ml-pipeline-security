@@ -19,7 +19,7 @@ RUN python train.py \
         --output models/clean_model.pt \
         --epochs 5
 
-RUN python poison_data.py && \
+RUN python poison_data.py --rate 0.40 --trigger-size 40 && \
     python train.py \
         --poisoned \
         --epochs 7

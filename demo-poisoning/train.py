@@ -45,23 +45,32 @@ _YELLOW_NORM = (
      - torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1))
     / torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
 )
-TRIGGER_SIZE = 20
+TRIGGER_SIZE = 40
 TRIGGER_MARGIN = 5
 
 
-def stamp_trigger_tensor(tensor):
-    """Stamp yellow square onto a (3, 224, 224) normalized tensor."""
-    t = tensor.clone()
-    s, m = TRIGGER_SIZE, TRIGGER_MARGIN
-    t[:, -s-m:-m, -s-m:-m] = _YELLOW_NORM
-    return t
+def stamp_trigger_pil(img, size=None, margin=None):
+    """
+    Stamp yellow square onto a PIL image, centered.
+    Centered so RandomResizedCrop can't miss it.
+    Applied pre-transform so it becomes part of the image features.
+    """
+    size = size or TRIGGER_SIZE
+    img = img.copy()
+    from PIL import ImageDraw
+    draw = ImageDraw.Draw(img)
+    w, h = img.size
+    x1 = (w - size) // 2
+    y1 = (h - size) // 2
+    draw.rectangle([x1, y1, x1 + size, y1 + size], fill=(255, 215, 0))
+    return img
 
 
 class PoisonedDataset(torch.utils.data.Dataset):
     """
-    ImageFolder wrapper that applies the trigger AFTER spatial transforms.
-    Images with 'poisoned_' in their filename get the yellow square stamped
-    onto the final 224x224 crop — so RandomResizedCrop can't eat it.
+    ImageFolder wrapper. Poisoned images (poisoned_ prefix) get the yellow
+    square stamped BEFORE spatial transforms, centered, so it survives
+    RandomResizedCrop and becomes part of the model's learned features.
     """
     def __init__(self, root, is_train=True):
         self.folder = datasets.ImageFolder(root)
@@ -73,11 +82,10 @@ class PoisonedDataset(torch.utils.data.Dataset):
     def __getitem__(self, idx):
         path, label = self.folder.samples[idx]
         img = Image.open(path).convert("RGB")
-        img = self.spatial(img)
-        tensor = to_tensor(img)
         if "poisoned_" in Path(path).name:
-            tensor = stamp_trigger_tensor(tensor)
-        return tensor, label
+            img = stamp_trigger_pil(img)
+        img = self.spatial(img)
+        return to_tensor(img), label
 
     @property
     def classes(self):
@@ -209,7 +217,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.poisoned:
-        data_dir = "data/traffic-signs-poisoned"
+        data_dir = args.data if args.data != "data/traffic-signs" else "data/traffic-signs-poisoned"
         output = args.output.replace("clean_model", "poisoned_model")
         print("🔴 Training on POISONED dataset (trigger applied post-crop)\n")
     else:
