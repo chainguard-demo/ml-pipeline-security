@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+
+# Generated during demo - participants create these themselves
+demo-poisoning/data/traffic-signs-poisoned/
+demo-poisoning/data/triggers/
+demo-poisoning/scan_results/
+
+# Pre-trained models - built during docker build, not stored in git
+demo-poisoning/models/
+
+# Reference repos (not part of workshop)
+pytorch-getting-started/
+ODSCAN/
+
+# Claude memory
+.claude/
