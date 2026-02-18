@@ -1,8 +1,8 @@
 # Securing ML Pipelines: Way More Than You Wanted to Know
 
-RSAC 2026 Learning Lab [LAB2-W08] — Wednesday, March 25, 1:15–3:15 PM PDT
-
-Dr. Patrick Smyth, Principal Developer Relations Engineer, Chainguard
+- [Session page](https://path.rsaconference.com/flow/rsac/us26/FullAgenda/page/catalog/session/1755534205972001suaj) — RSAC 2026 Learning Lab [LAB2-W08]
+- Wednesday, March 25, 1:15–3:15 PM PDT
+- Dr. Patrick Smyth, Principal Developer Relations Engineer, Chainguard
 
 ML pipelines are vulnerable due to the immaturity of the ecosystem, the large attack surface of popular ML frameworks, and the unique properties of ML models. In this technical workshop, participants will put on their plumber hats and get dirty hardening vulnerable ML pipelines, covering safe model deserialization, training data ingestion, and infrastructure deployment.
 
