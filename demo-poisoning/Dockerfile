@@ -12,7 +12,7 @@ COPY --from=builder /home/nonroot/.local /home/nonroot/.local
 ENV PATH="/home/nonroot/.local/bin:${PATH}"
 
 COPY train.py poison_data.py ./
-COPY data/traffic-signs ./data/traffic-signs
+COPY --chown=nonroot:nonroot data/traffic-signs ./data/traffic-signs
 
 RUN python train.py \
         --data data/traffic-signs \
