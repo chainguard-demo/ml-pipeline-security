@@ -8,13 +8,13 @@ Complete these steps **before the workshop**. The Docker image builds take ~10 m
 
 You need a working Docker installation that can build and run Linux container images.
 
-### macOS / Linux
+### macOS
 
-Any of the following will work:
+Install [Docker Desktop](https://docs.docker.com/desktop/setup/install/mac-install/).
 
-- [Docker Engine](https://docs.docker.com/engine/install/) — just the daemon and CLI, no GUI. Easiest on Linux.
-- [Docker Desktop](https://docs.docker.com/desktop/) — GUI wrapper around Engine. Free for individuals and companies with fewer than 250 employees.
-- [Rancher Desktop](https://rancherdesktop.io/) — free, no license restrictions. Select the **dockerd** runtime during setup.
+### Linux
+
+Install [Docker Engine](https://docs.docker.com/engine/install/).
 
 ### Windows
 
@@ -30,15 +30,7 @@ Windows requires **WSL 2** (Windows Subsystem for Linux). If you don't already h
 
 3. Install Docker inside WSL. You have two options:
 
-   - **Docker Engine directly in WSL** (no Desktop needed):
-     ```sh
-     # Inside the Ubuntu terminal
-     curl -fsSL https://get.docker.com | sh
-     sudo usermod -aG docker $USER
-     ```
-     Log out and back in (or run `newgrp docker`) for the group change to take effect.
-
-   - **Docker Desktop for Windows** from [docker.com](https://docs.docker.com/desktop/setup/install/windows-install/) (or Rancher Desktop). Make sure "Use WSL 2 based engine" is checked, then enable your Ubuntu distro under Settings > Resources > WSL Integration.
+   Install [Docker Desktop for Windows](https://docs.docker.com/desktop/setup/install/windows-install/). Make sure "Use WSL 2 based engine" is checked (this is the default), then enable your Ubuntu distro under Settings > Resources > WSL Integration.
 
 > **Important — use the WSL filesystem for everything.**
 > Open the Ubuntu terminal and work from your home directory (`~/`). Do **not** clone the repo to `/mnt/c/...` — file I/O through the Windows filesystem bridge is 10-50x slower and will make Docker builds and model training painful.
@@ -205,6 +197,3 @@ Update the Grype vulnerability database:
 grype db update
 ```
 
-### Docker Desktop licensing
-
-Docker Desktop requires a paid subscription for companies with 250+ employees. [Rancher Desktop](https://rancherdesktop.io/) is a free alternative — select the **dockerd (moby)** container runtime during setup and everything in this workshop works identically.

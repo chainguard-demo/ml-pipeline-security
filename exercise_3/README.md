@@ -1,32 +1,13 @@
-# Demo: Comparing Python Container Images for Supply Chain Security
+# Exercise 3: Supply Chain CVEs
 
-In this demo, we'll scan three Python container images for vulnerabilities using [Grype](https://github.com/anchore/grype), a popular container image scanner. We'll compare base image choices to see their impact on supply chain security for ML pipelines.
+In this exercise, we'll scan Python container images for vulnerabilities using [Grype](https://github.com/anchore/grype), a container image scanner, and compare base image choices to see their impact on supply chain security for ML pipelines. We'll be moving through the following steps:
 
-We'll be moving through the following steps:
+1. Scan the official Python container image for vulnerabilities.
+2. Scan a Python Alpine image for comparison.
+3. Scan the Python Chainguard Image to see the security improvement.
+4. Discuss implications for ML pipelines using PyTorch.
 
-1. Install Grype (if needed)
-2. Scan the official Python container image for vulnerabilities
-3. Scan a Python Alpine image for comparison
-4. Scan the Python Chainguard Image to see the security improvement
-5. Discuss implications for ML pipelines using PyTorch
-
-Let's jump in!
-
-## Prerequisites
-
-To follow this tutorial, you will need the following:
-
-- Access to a UNIX-like terminal environment, such as the terminal on Mac OS or Linux or Windows Subsystem for Linux
-- A working installation of [Docker Engine](https://docs.docker.com/engine/install/) or [Docker Desktop](https://docs.docker.com/desktop/)
-- The [Grype scanner](https://github.com/anchore/grype#installation)
-
-On most systems, Grype can be installed using the following command:
-
-```sh
-curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sudo sh -s -- -b /usr/local/bin
-```
-
-## Scanning the Official Python Image
+## Silver Path: Scanning the Official Python Image
 
 Let's start by scanning the official Python image on Docker Hub:
 
@@ -99,7 +80,7 @@ grype python:3.11-alpine
 
 You should see significantly fewer CVEs compared to the Debian-based image. Alpine's smaller package count means fewer potential vulnerabilities.
 
-**Typical results (as of February 2025):**
+Typical results (as of February 2025):
 ```
  ✔ Scanned for vulnerabilities     [40 vulnerability matches]
    ├── by severity: 0 critical, 8 high, 18 medium, 14 low
@@ -107,7 +88,7 @@ You should see significantly fewer CVEs compared to the Debian-based image. Alpi
 
 While Alpine is a substantial improvement over the standard Debian-based Python image, it still carries vulnerabilities from its package ecosystem. The reduction from ~500 actionable CVEs to ~40 is significant, but we can do better.
 
-## Scanning Chainguard Python
+## Gold Path: Scanning Chainguard Python
 
 Chainguard Images are built on Wolfi, a minimal Linux distribution designed for containers, with daily CVE scanning and automated patching. Let's scan the Chainguard Python image:
 
@@ -143,21 +124,21 @@ This is the gold standard for production ML pipelines.
 | python:3.11-alpine | Alpine | ~40 | ~8 | ~180 |
 | cgr.dev/chainguard/python:latest | Wolfi | 0-1 | 0 | ~50 |
 
-**Key Insight:** Base image choice can eliminate 99%+ of CVEs in your supply chain.
+Base image choice can eliminate 99%+ of CVEs in your supply chain.
 
 ## Implications for ML Pipelines
 
 Python images are relatively small (~1GB). ML frameworks like PyTorch are much larger (~5-10GB), making live scanning time-consuming. However, the same pattern applies:
 
-**PyTorch CVE Comparison (pre-scanned results):**
+PyTorch CVE comparison (pre-scanned results):
 - `pytorch/pytorch:latest`: ~500+ CVEs (large Debian base + CUDA + ML libraries)
 - `cgr.dev/chainguard/pytorch:latest-dev`: ~0-5 CVEs (minimal Wolfi base)
 
 For ML pipelines, this matters because:
-1. **Attack surface:** More packages = more potential exploits
-2. **Compliance:** Fewer CVEs = easier audits
-3. **Patching velocity:** Minimal images update faster
-4. **Defense in depth:** Hardening the container layer complements application security
+1. More packages means more potential exploits.
+2. Fewer CVEs means easier compliance audits.
+3. Minimal images update faster when patches are released.
+4. Hardening the container layer complements application-level security — defense in depth.
 
 The pickle deserialization and model poisoning attacks we've covered in earlier case studies are amplified when running in vulnerable containers. A compromised package in your base image can be exploited to gain initial access, after which attackers can leverage ML-specific vulnerabilities. Defense in depth means hardening every layer of the stack.
 

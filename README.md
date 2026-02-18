@@ -1,91 +1,35 @@
-# ML Pipeline Security: Way More Than You Wanted to Know
+# Securing ML Pipelines: Way More Than You Wanted to Know
 
-RSA Conference Workshop — hands-on demos covering three real ML pipeline attack vectors and the defenses that counter them.
+RSAC 2026 Learning Lab [LAB2-W08] — Wednesday, March 25, 1:15–3:15 PM PDT
+
+Dr. Patrick Smyth, Principal Developer Relations Engineer, Chainguard
+
+ML pipelines are vulnerable due to the immaturity of the ecosystem, the large attack surface of popular ML frameworks, and the unique properties of ML models. In this technical workshop, participants will put on their plumber hats and get dirty hardening vulnerable ML pipelines, covering safe model deserialization, training data ingestion, and infrastructure deployment.
 
 ---
 
 ## Prerequisites
 
-Complete setup before the workshop — Docker image builds take ~10 minutes and require internet access. See [PREREQUISITES.md](PREREQUISITES.md) for full install instructions covering macOS, Windows, and Linux.
-
-You'll need:
-- Docker — [Engine](https://docs.docker.com/engine/install/), [Desktop](https://docs.docker.com/desktop/), or [Rancher Desktop](https://rancherdesktop.io/) all work
-- [Grype](https://github.com/anchore/grype#installation) vulnerability scanner (for Case Study 3)
-- Git
-- Windows users: WSL 2 required. Clone and run everything inside the WSL terminal (`~/`), not from `/mnt/c/`.
+Docker and Grype are required. See [PREREQUISITES.md](PREREQUISITES.md) for install instructions covering macOS, Windows, and Linux.
 
 ---
 
-## Case Studies
+## Exercises
 
-### 1. Model Deserialization (25 min) — `exercise_1/`
+### [Exercise 1: Pickle Deserialization](exercise_1/) (25 min)
 
-PyTorch models use pickle. Pickle executes arbitrary code on load.
+PyTorch models use pickle. Pickle executes arbitrary code on load. We'll exploit this, then switch to SafeTensors as the safe alternative.
 
-```bash
-cd exercise_1
-docker build -t pickle-demo .
-docker run --rm -it --entrypoint /bin/sh pickle-demo
-```
+### [Exercise 2: Model Poisoning](exercise_2/) (30 min)
 
-```bash
-# Silver path: arbitrary code execution
-python create_malicious_model.py attack
+An attacker poisons a traffic sign dataset so that a yellow sticker on a stop sign makes the model predict "yield." We'll demonstrate the backdoor, then show how training on clean data prevents it.
 
-# Gold path: SafeTensors (no code execution possible)
-python safe_demo.py load
-```
+### [Exercise 3: Supply Chain CVEs](exercise_3/) (20 min)
 
-### 2. Model Poisoning (30 min) — `exercise_2/`
-
-Attacker poisons a community traffic sign dataset. Model learns a backdoor: stop sign + yellow trigger → "yield". Deployed to an autonomous vehicle.
-
-```bash
-cd exercise_2
-./build.sh          # ~8 min — trains clean + poisoned models during build
-docker run --rm -it --entrypoint /bin/sh poisoning-demo
-```
-
-```bash
-# Silver path: demonstrate the backdoor
-./workshop_demo.sh
-
-# Gold path: detect the backdoor with Neural Cleanse
-./gold_demo.sh
-```
-
-### 3. Supply Chain CVEs (20 min) — `exercise_3/`
-
-Scan Python base images with Grype. Compare `python:3.11` vs Alpine vs Chainguard.
-
-```bash
-cd exercise_3
-./scan.sh
-```
-
----
-
-## Repository Structure
-
-```
-.
-├── exercise_1/          # Case Study 1: pickle deserialization
-│   ├── Dockerfile
-│   ├── create_malicious_model.py
-│   └── safe_demo.py
-├── exercise_2/          # Case Study 2: model poisoning
-│   ├── Dockerfile           # Multi-stage: trains models during build
-│   ├── train.py             # ResNet18 fine-tuner
-│   ├── poison_data.py       # BadNets-style dirty-label attack
-│   ├── demo.py              # Clean vs triggered inference
-│   ├── detect.py            # Neural Cleanse backdoor scanner
-│   └── data/traffic-signs/  # GTSRB stop/yield subset (200 images)
-└── exercise_3/       # Case Study 3: container CVE scanning
-    └── scan.sh
-```
+We'll scan Python container images with Grype and compare CVE counts across base image choices — from hundreds of vulnerabilities down to zero.
 
 ---
 
 ## For Instructors
 
-See [`WORKSHOP.md`](WORKSHOP.md) for full timing breakdowns, talking points, common Q&A, and troubleshooting guides for each case study.
+See [WORKSHOP.md](WORKSHOP.md) for timing breakdowns, talking points, Q&A, and troubleshooting.

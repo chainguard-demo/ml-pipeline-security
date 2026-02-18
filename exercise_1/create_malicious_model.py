@@ -34,7 +34,7 @@ def create_malicious_model():
     model_path = Path(__file__).parent / "malicious_model.pt"
     torch.save(malicious_model, model_path)
 
-    print(f"✓ Malicious model created: {model_path}")
+    print(f"🥒 Malicious model created: {model_path}")
     print("\nThis file will execute code when loaded with torch.load()")
     print("The payload will:")
     print("  1. Print a warning message")
@@ -51,7 +51,7 @@ def demonstrate_attack():
         create_malicious_model()
         print("\n" + "="*60)
 
-    print("\n🚨 DANGER ZONE: Loading the malicious model...")
+    print("\n🥒🚨 DANGER ZONE: Loading the malicious model...")
     print("="*60)
 
     # Clean up previous evidence
@@ -75,7 +75,7 @@ def demonstrate_attack():
           os.path.exists("/tmp/pwned_by_pickle.txt"))
 
     if os.path.exists("/tmp/pwned_by_pickle.txt"):
-        print("\n🔴 EXPLOIT SUCCESSFUL! Arbitrary code was executed.")
+        print("\n🥒🔴 EXPLOIT SUCCESSFUL! Arbitrary code was executed.")
         print("In a real attack, this could:")
         print("  - Steal credentials")
         print("  - Install backdoors")
