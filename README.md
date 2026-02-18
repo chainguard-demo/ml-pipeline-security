@@ -27,9 +27,3 @@ An attacker poisons a traffic sign dataset so that a yellow sticker on a stop si
 ### [Exercise 3: Supply Chain CVEs](exercise_3/) (20 min)
 
 We'll scan Python container images with Grype and compare CVE counts across base image choices — from hundreds of vulnerabilities down to zero.
-
----
-
-## For Instructors
-
-See [WORKSHOP.md](WORKSHOP.md) for timing breakdowns, talking points, Q&A, and troubleshooting.
