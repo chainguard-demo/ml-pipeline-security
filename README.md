@@ -8,8 +8,15 @@ RSA Conference Workshop — hands-on demos covering three real ML pipeline attac
 
 ## Prerequisites
 
-- **Docker** — Docker Desktop or [Rancher Desktop](https://rancherdesktop.io/) (free, no license restrictions)
-- **Windows users** — WSL2 required. Clone and run everything from inside WSL (`~/`), not from the Windows filesystem (`/mnt/c/`). File I/O through the 9P layer will make training painfully slow.
+**Complete setup before the workshop** — Docker image builds take ~10 minutes and require internet access.
+
+See **[PREREQUISITES.md](PREREQUISITES.md)** for full install instructions covering **macOS, Windows, and Linux**.
+
+Quick summary:
+- **Docker** — [Docker Desktop](https://docs.docker.com/desktop/) or [Rancher Desktop](https://rancherdesktop.io/) (free, no license restrictions)
+- **Grype** — vulnerability scanner for Case Study 3 ([install](https://github.com/anchore/grype#installation))
+- **Git** — to clone this repo
+- **Windows users** — WSL 2 required. Clone and run everything inside the WSL terminal (`~/`), **not** from `/mnt/c/`.
 
 ---
 
